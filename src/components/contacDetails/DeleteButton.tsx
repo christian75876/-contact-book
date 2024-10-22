@@ -6,16 +6,17 @@ import {
   TouchableHighlight,
   useColorScheme,
 } from 'react-native';
+import {removeContactById} from '../../services/Crud';
 
 interface DeleteButtonProps {
-  onDelete: () => void;
+  contactId: number;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = () => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({contactId}) => {
   const handlerDelete = () => {
     Alert.alert('Delete', 'Are you sure you want to delete this contact?', [
       {text: 'Cancel', style: 'cancel'},
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
+      {text: 'OK', onPress: () => removeContactById('contacts', contactId)},
     ]);
   };
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,7 +34,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = () => {
 
   return (
     <TouchableHighlight style={styles.btnDelete} onPress={handlerDelete}>
-      <Text style={{color: '#fff', fontSize: 20}}>Eliminar</Text>
+      <Text style={{color: '#fff', fontSize: 20}}>Delete</Text>
     </TouchableHighlight>
   );
 };

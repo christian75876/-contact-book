@@ -27,11 +27,6 @@ export default function ContactDetails({route}: {route: any}) {
     );
   }
 
-  const handleDelete = () => {
-    // Aquí va la lógica para eliminar el ítem, por ejemplo:
-    console.log('Elemento eliminado');
-  };
-
   const styles = StyleSheet.create({
     contactHeader: {
       flexDirection: 'column',
@@ -115,7 +110,7 @@ export default function ContactDetails({route}: {route: any}) {
             </View>
           </View>
         </View>
-        <DeleteButton onDelete={handleDelete} />
+        <DeleteButton contactId={contact.id} />
       </ScrollView>
     </SafeAreaView>
   );
