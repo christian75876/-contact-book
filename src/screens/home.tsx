@@ -6,12 +6,14 @@
  */
 import React, {useState} from 'react';
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
@@ -19,38 +21,41 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/main-stack';
-import {getCachedData} from '../services/Crud';
+// import {useNavigation, useFocusEffect} from '@react-navigation/native';
+// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+// import {RootStackParamList} from '../../navigation/main-stack';
+// import {getCachedData} from '../services/Crud';
+import {useHome} from '../hooks/useHome.hook';
 
 function Home(): React.JSX.Element {
-  const [contacts, setContacts] = useState<any[]>([]);
+  // const [contacts, setContacts] = useState<any[]>([]);
 
-  const retrieveData = async () => {
-    try {
-      const data = await getCachedData('contacts');
-      if (data) {
-        setContacts(data);
-      }
-    } catch (error) {
-      console.log('error al obtener datos de cache' + error);
-    }
-  };
+  // const retrieveData = async () => {
+  //   try {
+  //     const data = await getCachedData('contacts');
+  //     if (data) {
+  //       setContacts(data);
+  //     }
+  //   } catch (error) {
+  //     console.log('error al obtener datos de cache' + error);
+  //   }
+  // };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      retrieveData();
-      console.log('Contact list updated');
-    }, []),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     retrieveData();
+  //     console.log('Contact list updated');
+  //   }, []),
+  // );
 
-  type navigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'ContacDetails'
-  >;
+  // type navigationProp = NativeStackNavigationProp<
+  //   RootStackParamList,
+  //   'ContacDetails'
+  // >;
 
-  const navigation = useNavigation<navigationProp>();
+  // const navigation = useNavigation<navigationProp>();
+
+  const {contacts, navigation} = useHome();
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -126,6 +131,12 @@ function Home(): React.JSX.Element {
       borderWidth: 1,
       overflow: 'hidden',
     },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 15,
+    },
   });
 
   return (
@@ -134,13 +145,20 @@ function Home(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
       <View style={styles.headerTitle}>
-        <Text style={styles.h1}>Contactos</Text>
+        <View style={styles.header}>
+          <Text style={styles.h1}>Contactos</Text>
+          <TouchableOpacity onPress={() => Alert.alert('hola')}>
+            <Icon name="add-outline" size={24} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.containerSearch}>
           <Icon name="search-outline" size={24} style={styles.iconSearch} />
           <TextInput placeholder="Buscar contacto" style={styles.input} />
         </View>
       </View>
+
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.body}>
           <View style={styles.contactList}>
