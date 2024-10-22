@@ -37,6 +37,7 @@ export const setCachedData = async (
     const stringifiedData = JSON.stringify(data);
     await AsyncStorage.setItem(key, stringifiedData);
     cache.set(key, data);
+    console.log('********************************' + data);
   } catch (error) {
     console.error(`Error setting cached data for key "${key}":`, error);
   }
@@ -59,6 +60,7 @@ export const removeContactById = async (
     const contacts = await getCachedData(key);
     if (contacts) {
       const updatedContacts = contacts.filter(contact => contact.id !== id);
+      console.log(updatedContacts);
       await setCachedData(key, updatedContacts);
     }
   } catch (error) {

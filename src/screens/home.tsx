@@ -4,7 +4,7 @@
  *
  * @format
  */
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -19,7 +19,7 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/main-stack';
 import {getCachedData} from '../services/Crud';
@@ -38,11 +38,12 @@ function Home(): React.JSX.Element {
     }
   };
 
-  useEffect(() => {
-    retrieveData();
-  }, []);
-
-  console.log(retrieveData);
+  useFocusEffect(
+    React.useCallback(() => {
+      retrieveData();
+      console.log('Contact list updated');
+    }, []),
+  );
 
   type navigationProp = NativeStackNavigationProp<
     RootStackParamList,
