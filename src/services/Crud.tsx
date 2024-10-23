@@ -42,6 +42,24 @@ export const setCachedData = async (
   }
 };
 
+export const setContactCacheData = async (
+  key: string,
+  contact: Contact,
+): Promise<void> => {
+  try {
+    const contacts = await getCachedData(key);
+    if (contacts) {
+      contact.id = contacts.length;
+      const updatedContacts = [...contacts, contact];
+      await setCachedData(key, updatedContacts);
+    } else {
+      await setCachedData(key, [contact]);
+    }
+  } catch (error) {
+    console.error(`Error setting contact data for key "${key}":`, error);
+  }
+};
+
 export const removeCachedData = async (key: string): Promise<void> => {
   try {
     await AsyncStorage.removeItem(key);

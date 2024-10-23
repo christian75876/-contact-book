@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {getCachedData} from '../services/Crud';
+import {getCachedData} from '../../../services/Crud';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/main-stack';
+import {RootStackParamList} from '../../../../navigation/main-stack';
 
 export function useHome() {
   const [contacts, setContacts] = useState<any[]>([]);
@@ -27,7 +27,8 @@ export function useHome() {
 
   type navigationProp = NativeStackNavigationProp<
     RootStackParamList,
-    'ContacDetails'
+    'ContacDetails',
+    'NewContact'
   >;
 
   const navigation = useNavigation<navigationProp>();
