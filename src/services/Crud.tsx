@@ -29,6 +29,52 @@ export const getCachedData = async (key: string): Promise<Contact[] | null> => {
   }
 };
 
+export const getCacheDataById = async (
+  id: number,
+  key: string,
+): Promise<Contact | null> => {
+  try {
+    const contacts = await getCachedData(key);
+    if (contacts) {
+      const contact = contacts.find(c => c.id === id);
+      if (contact) {
+        return contact;
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error(`Error getting cached data for key "${key}":`, error);
+    return null;
+  }
+};
+
+export const updateCachedData = async (
+  id: number,
+  key: string,
+  updatedContact: Contact,
+): Promise<void | null> => {
+  try {
+    const contacts = await getCachedData(key);
+    if (!contacts) {
+      console.log('Could not find contacts');
+      return null;
+    }
+    const contact = await getCacheDataById(id, key);
+    if (!contact) {
+      console.log('Could not find contact');
+      return null;
+    }
+
+    const updatedContacts = contacts.map(c =>
+      c.id === id ? updatedContact : c,
+    );
+    await setCachedData(key, updatedContacts);
+  } catch (error) {
+    console.error(`Error updating cached data for key "${key}":`, error);
+    return null;
+  }
+};
+
 export const setCachedData = async (
   key: string,
   data: Contact[],
@@ -49,7 +95,7 @@ export const setContactCacheData = async (
   try {
     const contacts = await getCachedData(key);
     if (contacts) {
-      contact.id = contacts.length;
+      contact.id = Date.now();
       const updatedContacts = [...contacts, contact];
       await setCachedData(key, updatedContacts);
     } else {

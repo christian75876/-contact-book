@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,15 +8,42 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {contactData} from '../data/data';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DeleteButton from '../components/contacDetails/DeleteButton';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../navigation/main-stack';
+import {RouteProp, useNavigation} from '@react-navigation/native';
+import {Contact, getCacheDataById} from '../services/Crud';
 
-export default function ContactDetails({route}: {route: any}) {
-  const {contactId} = route.params;
+type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
-  const contact = contactData.find(data => data.id === contactId);
+export interface IcontactDetailsRoute {
+  route: ContactDetailsRouteProps;
+}
+
+export default function ContactDetails({route}: IcontactDetailsRoute) {
+  type navigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    'UpdateContact'
+  >;
+  const navigation = useNavigation<navigationProp>();
+
+  const {contactId} = route.params as {contactId: string};
+  const [contact, setContact] = useState<Contact | null>(null);
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      const fetchedContact = await getCacheDataById(
+        parseInt(contactId),
+        'contacts',
+      );
+      setContact(fetchedContact);
+    };
+
+    fetchContact();
+  }, [contactId]);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   if (!contact) {
@@ -82,7 +109,13 @@ export default function ContactDetails({route}: {route: any}) {
     <SafeAreaView>
       <View style={styles.containerBtn}>
         <TouchableHighlight style={styles.btnUpdate}>
-          <Text style={{color: isDarkMode ? 'black' : '#fff', fontSize: 20}}>
+          <Text
+            onPress={() => {
+              navigation.navigate('UpdateContact', {
+                contactId: parseInt(contactId),
+              });
+            }}
+            style={{color: isDarkMode ? 'black' : '#fff', fontSize: 20}}>
             Editar
           </Text>
         </TouchableHighlight>

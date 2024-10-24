@@ -5,11 +5,13 @@ import Home from '../src/screens/home/home';
 import {ParamListBase} from '@react-navigation/native';
 import ContactDetails from '../src/screens/ContactDetails';
 import NewContact from '../src/screens/NewContact';
+import UpdateContact from '../src/screens/updateContact/UpdateContact';
 
 export interface RootStackParamList extends ParamListBase {
   Home: undefined;
   ContactDetails: {contactId: number};
   NewContact: undefined;
+  UpdateContact: {contactId: number};
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -25,6 +27,7 @@ const MainStack = () => {
         />
         <Stack.Screen name="ContacDetails" component={ContactDetails} />
         <Stack.Screen name="NewContact" component={NewContact} />
+        <Stack.Screen name="UpdateContact" component={UpdateContact} />
       </Stack.Navigator>
     </NavigationContainer>
   );

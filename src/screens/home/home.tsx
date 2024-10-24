@@ -128,9 +128,10 @@ function Home(): React.JSX.Element {
               <View
                 key={index}
                 style={styles.contact}
-                onTouchStart={() =>
-                  navigation.navigate('ContacDetails', {contactId: data.id})
-                }>
+                onTouchStart={() => {
+                  const contactId = data.id;
+                  return navigation.navigate('ContacDetails', {contactId});
+                }}>
                 <View style={styles.contactInfo}>
                   <Text style={styles.contactName}>{data.name}</Text>
                 </View>

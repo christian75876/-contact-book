@@ -53,14 +53,14 @@ export default function NewContact(): React.JSX.Element {
           style={styles.input}
           placeholder="Enter your name"
           value={name}
-          onChangeText={setName} // Actualiza el estado cuando cambia el texto
+          onChangeText={setName}
         />
         <Text style={styles.label}>Email:</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter your email"
           value={email}
-          onChangeText={setEmail} // Actualiza el estado cuando cambia el texto
+          onChangeText={setEmail}
           keyboardType="email-address"
         />
         <Text style={styles.label}>Phone:</Text>
@@ -68,7 +68,7 @@ export default function NewContact(): React.JSX.Element {
           style={styles.input}
           placeholder="Enter your phone number"
           value={phone}
-          onChangeText={setPhone} // Actualiza el estado cuando cambia el texto
+          onChangeText={setPhone}
           keyboardType="phone-pad"
         />
         <Button title="Create Contact" onPress={handleCreateContact} />
