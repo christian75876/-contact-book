@@ -10,11 +10,15 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
-import DeleteButton from '../components/contacDetails/DeleteButton';
+import DeleteButton from './DeleteButton';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/main-stack';
+import {RootStackParamList} from '../../../navigation/main-stack';
 import {RouteProp, useNavigation} from '@react-navigation/native';
-import {Contact, getCacheDataById} from '../services/Crud';
+import {
+  Contact,
+  getCacheDataById,
+  removeContactById,
+} from '../../services/Crud';
 
 type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
@@ -105,6 +109,11 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     },
   });
 
+  const deleteContact = async () => {
+    await removeContactById('contacts', parseInt(contactId));
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.containerBtn}>
@@ -143,7 +152,8 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
             </View>
           </View>
         </View>
-        <DeleteButton contactId={contact.id} />
+        <DeleteButton contactId={contact.id} onpress={deleteContact} />
+        {/* <Button title="borrar" onPress={deleteContact} /> */}
       </ScrollView>
     </SafeAreaView>
   );

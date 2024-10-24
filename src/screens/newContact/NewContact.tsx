@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Contact, setContactCacheData} from '../services/Crud';
+import {Contact, setContactCacheData} from '../../services/Crud';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../navigation/main-stack';
+import {useNavigation} from '@react-navigation/native';
 
 export default function NewContact(): React.JSX.Element {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+
+  type navigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+  const navigation = useNavigation<navigationProp>();
 
   const handleCreateContact = async () => {
     const newContact: Contact = {
@@ -21,6 +27,8 @@ export default function NewContact(): React.JSX.Element {
     setName('');
     setEmail('');
     setPhone('');
+
+    navigation.navigate('Home');
   };
 
   const styles = StyleSheet.create({

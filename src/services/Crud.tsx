@@ -118,7 +118,7 @@ export const removeCachedData = async (key: string): Promise<void> => {
 export const removeContactById = async (
   key: string,
   id: number,
-): Promise<void> => {
+): Promise<any> => {
   try {
     const contacts = await getCachedData(key);
     if (contacts) {

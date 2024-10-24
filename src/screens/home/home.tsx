@@ -16,7 +16,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHome} from './hooks/useHome.hook';
 
-function Home(): React.JSX.Element {
+export function Home(): React.JSX.Element {
   const {contacts, navigation} = useHome();
 
   const isDarkMode = useColorScheme() === 'dark';
@@ -130,7 +130,9 @@ function Home(): React.JSX.Element {
                 style={styles.contact}
                 onTouchStart={() => {
                   const contactId = data.id;
-                  return navigation.navigate('ContacDetails', {contactId});
+                  return navigation.navigate('ContacDetails', {
+                    contactId,
+                  });
                 }}>
                 <View style={styles.contactInfo}>
                   <Text style={styles.contactName}>{data.name}</Text>

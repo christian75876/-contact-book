@@ -1,9 +1,10 @@
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../../navigation/main-stack';
 import {Contact, getCacheDataById, updateCachedData} from '../../services/Crud';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
 
@@ -12,6 +13,12 @@ export interface IupdateContactRoute {
 }
 
 export default function UpdateContact({route}: IupdateContactRoute) {
+  type navigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    'ContactDetails'
+  >;
+  const navigation = useNavigation<navigationProp>();
+
   const {contactId} = route.params as {contactId: number};
   const [contact, setContact] = useState<Contact | null>(null);
 
@@ -52,6 +59,8 @@ export default function UpdateContact({route}: IupdateContactRoute) {
     };
 
     await updateCachedData(contactId, 'contacts', updatedContact);
+
+    navigation.navigate('ContacDetails', {contactId});
   };
 
   const styles = StyleSheet.create({
