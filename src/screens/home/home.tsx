@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useHome} from './hooks/useHome.hook';
 
 export function Home(): React.JSX.Element {
-  const {contacts, navigation} = useHome();
+  const {navigation, filteredContacts, searchText, setSearchText} = useHome();
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -117,14 +117,19 @@ export function Home(): React.JSX.Element {
         </View>
         <View style={styles.containerSearch}>
           <Icon name="search-outline" size={24} style={styles.iconSearch} />
-          <TextInput placeholder="Buscar contacto" style={styles.input} />
+          <TextInput
+            placeholder="Buscar contacto"
+            style={styles.input}
+            value={searchText}
+            onChangeText={setSearchText} // Actualiza el estado de búsqueda
+          />
         </View>
       </View>
 
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.body}>
           <View style={styles.contactList}>
-            {contacts.map((data, index) => (
+            {filteredContacts.map((data, index) => (
               <View
                 key={index}
                 style={styles.contact}

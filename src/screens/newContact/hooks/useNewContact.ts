@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
 import {useNavigation} from '@react-navigation/native';
 import {Contact, setContactCacheData} from '../../../services/Crud';
+import {Alert} from 'react-native';
 
 export const useNewContact = () => {
   const [name, setName] = useState('');
@@ -14,6 +15,9 @@ export const useNewContact = () => {
   const navigation = useNavigation<navigationProp>();
 
   const handleCreateContact = async () => {
+    if (!name) {
+      return Alert.alert('Invalid name');
+    }
     const newContact: Contact = {
       id: 0,
       name,

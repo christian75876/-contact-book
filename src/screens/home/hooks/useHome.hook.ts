@@ -1,11 +1,16 @@
 import {useEffect, useState} from 'react';
-import {getCachedData, removeContactById} from '../../../services/Crud';
+import {getCachedData} from '../../../services/Crud';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
 
 export function useHome() {
   const [contacts, setContacts] = useState<any[]>([]);
+  const [searchText, setSearchText] = useState('');
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(searchText.toLowerCase()),
+  );
 
   const retrieveData = async () => {
     try {
@@ -14,11 +19,6 @@ export function useHome() {
     } catch (error) {
       console.log('error al obtener datos de cache' + error);
     }
-  };
-
-  const deleteContac = async (id: number) => {
-    // const newContac = removeContactById('contacts', id);
-    removeContactById('contacts', id);
   };
 
   let focused = useIsFocused();
@@ -37,8 +37,8 @@ export function useHome() {
 
   return {
     navigation,
-    contacts,
-    retrieveData,
-    deleteContac,
+    filteredContacts,
+    searchText,
+    setSearchText,
   };
 }
