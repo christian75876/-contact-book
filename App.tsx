@@ -8,7 +8,7 @@ import React from 'react';
 import {useColorScheme} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import MainStack from './navigation/main-stack';
+import MainStack from './src/navigation/main-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 // import MainStack from './navigation/main-stack';
 

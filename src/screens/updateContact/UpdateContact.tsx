@@ -1,10 +1,11 @@
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import React from 'react';
 import {RouteProp} from '@react-navigation/native';
-import {RootStackParamList} from '../../../navigation/main-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ContactImage from '../../components/ContactImage';
 import useUpdate from './hooks/useUpdate.hook';
+import {useCamera} from '../../hooks/useCamera.hook';
+import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
 
 type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
 
@@ -14,16 +15,17 @@ export interface IupdateContactRoute {
 export default function UpdateContact({route}: IupdateContactRoute) {
   const {
     handleSave,
-    openGallery,
-    openCamera,
     contact,
     imageUri,
     setName,
     setEmail,
     setPhone,
+    setImageUri,
   } = useUpdate({
     route,
   });
+
+  const {openCamera, openGallery} = useCamera(setImageUri);
 
   const styles = StyleSheet.create({
     container: {

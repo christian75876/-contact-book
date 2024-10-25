@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {getCachedData, removeContactById} from '../../../services/Crud';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../../navigation/main-stack';
+import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
 
 export function useHome() {
   const [contacts, setContacts] = useState<any[]>([]);

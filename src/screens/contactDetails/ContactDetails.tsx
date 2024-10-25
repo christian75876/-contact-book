@@ -1,24 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
-  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import DeleteButton from './DeleteButton';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/main-stack';
-import {RouteProp, useNavigation} from '@react-navigation/native';
-import {
-  Contact,
-  getCacheDataById,
-  removeContactById,
-} from '../../services/Crud';
+import DeleteButton from './components/DeleteButton';
+import {RouteProp} from '@react-navigation/native';
+import {removeContactById} from '../../services/Crud';
 import ContactImage from '../../components/ContactImage';
+import {useContactDetail} from './hooks/useContactDetails.hook';
+import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
 
 type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
@@ -27,28 +22,9 @@ export interface IcontactDetailsRoute {
 }
 
 export default function ContactDetails({route}: IcontactDetailsRoute) {
-  type navigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'UpdateContact'
-  >;
-  const navigation = useNavigation<navigationProp>();
-
   const {contactId} = route.params as {contactId: string};
-  const [contact, setContact] = useState<Contact | null>(null);
 
-  useEffect(() => {
-    const fetchContact = async () => {
-      const fetchedContact = await getCacheDataById(
-        parseInt(contactId),
-        'contacts',
-      );
-      setContact(fetchedContact);
-    };
-
-    fetchContact();
-  }, [contactId]);
-
-  const isDarkMode = useColorScheme() === 'dark';
+  const {navigation, contact, isDarkMode} = useContactDetail({route});
 
   if (!contact) {
     return (

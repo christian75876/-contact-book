@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import ContactImage from '../../components/ContactImage';
 import {useNewContact} from './hooks/useNewContact';
+import {useCamera} from '../../hooks/useCamera.hook';
 
 export default function NewContact(): React.JSX.Element {
   const {
@@ -15,9 +16,10 @@ export default function NewContact(): React.JSX.Element {
     phone,
     setPhone,
     handleCreateContact,
-    openCamera,
-    openGallery,
+    setImageUri,
   } = useNewContact();
+
+  const {openCamera, openGallery} = useCamera(setImageUri);
 
   const styles = StyleSheet.create({
     container: {

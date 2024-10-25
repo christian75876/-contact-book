@@ -1,5 +1,5 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../../navigation/main-stack';
+import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import {
@@ -7,7 +7,6 @@ import {
   getCacheDataById,
   updateCachedData,
 } from '../../../services/Crud';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {IupdateContactRoute} from '../UpdateContact';
 
 export default function useUpdate({route}: IupdateContactRoute) {
@@ -24,22 +23,6 @@ export default function useUpdate({route}: IupdateContactRoute) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
-
-  const openCamera = () => {
-    launchCamera({mediaType: 'photo', cameraType: 'back'}, response => {
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || null);
-      }
-    });
-  };
-
-  const openGallery = () => {
-    launchImageLibrary({mediaType: 'photo'}, response => {
-      if (response.assets && response.assets.length > 0) {
-        setImageUri(response.assets[0].uri || null);
-      }
-    });
-  };
 
   useEffect(() => {
     const fetchContact = async () => {
@@ -75,12 +58,11 @@ export default function useUpdate({route}: IupdateContactRoute) {
 
   return {
     handleSave,
-    openGallery,
-    openCamera,
     contact,
     imageUri,
     setName,
     setEmail,
     setPhone,
+    setImageUri,
   };
 }
