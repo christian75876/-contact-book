@@ -17,7 +17,8 @@ export function useHome() {
   };
 
   const deleteContac = async (id: number) => {
-    const newContac = removeContactById('contacts', id);
+    // const newContac = removeContactById('contacts', id);
+    removeContactById('contacts', id);
   };
 
   let focused = useIsFocused();

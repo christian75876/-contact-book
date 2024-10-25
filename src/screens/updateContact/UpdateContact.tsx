@@ -1,67 +1,29 @@
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {RouteProp, useNavigation} from '@react-navigation/native';
+import React from 'react';
+import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '../../../navigation/main-stack';
-import {Contact, getCacheDataById, updateCachedData} from '../../services/Crud';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import ContactImage from '../../components/ContactImage';
+import useUpdate from './hooks/useUpdate.hook';
 
 type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
 
 export interface IupdateContactRoute {
   route: UpdateContactRouteProps;
 }
-
 export default function UpdateContact({route}: IupdateContactRoute) {
-  type navigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'ContactDetails'
-  >;
-  const navigation = useNavigation<navigationProp>();
-
-  const {contactId} = route.params as {contactId: number};
-  const [contact, setContact] = useState<Contact | null>(null);
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  console.log('name: ', name);
-  useEffect(() => {
-    const fetchContact = async () => {
-      const fetchedContact = await getCacheDataById(contactId, 'contacts');
-      setContact(fetchedContact);
-
-      if (fetchedContact) {
-        setName(fetchedContact.name);
-        setEmail(fetchedContact.email);
-        setPhone(fetchedContact.phone);
-      }
-    };
-
-    fetchContact();
-  }, []);
-  console.log('name: ', name);
-  if (!contact) {
-    return (
-      <SafeAreaView>
-        <Text>No contact found</Text>
-      </SafeAreaView>
-    );
-  }
-
-  const handleSave = async () => {
-    console.log('Contact updated:', {contactId, name, email, phone});
-    const updatedContact: Contact = {
-      id: contactId,
-      name,
-      email,
-      phone,
-    };
-
-    await updateCachedData(contactId, 'contacts', updatedContact);
-
-    navigation.navigate('ContacDetails', {contactId});
-  };
+  const {
+    handleSave,
+    openGallery,
+    openCamera,
+    contact,
+    imageUri,
+    setName,
+    setEmail,
+    setPhone,
+  } = useUpdate({
+    route,
+  });
 
   const styles = StyleSheet.create({
     container: {
@@ -82,10 +44,17 @@ export default function UpdateContact({route}: IupdateContactRoute) {
     },
   });
 
+  if (!contact) {
+    return (
+      <SafeAreaView>
+        <Text>No contact found</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Update Contact {contactId}</Text>
-
+      <ContactImage imageUri={imageUri} />
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -110,6 +79,8 @@ export default function UpdateContact({route}: IupdateContactRoute) {
       />
 
       <Button title="Save Changes" onPress={handleSave} />
+      <Button title="Camara" onPress={openCamera} />
+      <Button title="Galeria" onPress={openGallery} />
     </View>
   );
 }

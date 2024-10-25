@@ -1,35 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Contact, setContactCacheData} from '../../services/Crud';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/main-stack';
-import {useNavigation} from '@react-navigation/native';
+
+import ContactImage from '../../components/ContactImage';
+import {useNewContact} from './hooks/useNewContact';
 
 export default function NewContact(): React.JSX.Element {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-
-  type navigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
-  const navigation = useNavigation<navigationProp>();
-
-  const handleCreateContact = async () => {
-    const newContact: Contact = {
-      id: 0,
-      name,
-      email,
-      phone,
-    };
-
-    await setContactCacheData('contacts', newContact);
-
-    setName('');
-    setEmail('');
-    setPhone('');
-
-    navigation.navigate('Home');
-  };
+  const {
+    imageUri,
+    name,
+    setName,
+    email,
+    setEmail,
+    phone,
+    setPhone,
+    handleCreateContact,
+    openCamera,
+    openGallery,
+  } = useNewContact();
 
   const styles = StyleSheet.create({
     container: {
@@ -51,10 +39,23 @@ export default function NewContact(): React.JSX.Element {
       paddingHorizontal: 10,
       marginBottom: 20,
     },
+    contactHeader: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 250,
+    },
+    image: {
+      width: 170,
+      height: 170,
+      borderRadius: 85,
+    },
   });
 
   return (
     <SafeAreaView style={styles.container}>
+      <ContactImage imageUri={imageUri} />
+
       <View style={styles.form}>
         <Text style={styles.label}>Name:</Text>
         <TextInput
@@ -80,6 +81,8 @@ export default function NewContact(): React.JSX.Element {
           keyboardType="phone-pad"
         />
         <Button title="Create Contact" onPress={handleCreateContact} />
+        <Button title="Camara" onPress={openCamera} />
+        <Button title="Galeria" onPress={openGallery} />
       </View>
     </SafeAreaView>
   );

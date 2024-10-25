@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Icon from 'react-native-vector-icons/Ionicons';
 import DeleteButton from './DeleteButton';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../navigation/main-stack';
@@ -19,6 +18,7 @@ import {
   getCacheDataById,
   removeContactById,
 } from '../../services/Crud';
+import ContactImage from '../../components/ContactImage';
 
 type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
@@ -130,11 +130,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
         </TouchableHighlight>
       </View>
       <View style={styles.contactHeader}>
-        <Icon
-          name="person-circle-outline"
-          size={170}
-          color={isDarkMode ? 'white' : 'gray'}
-        />
+        <ContactImage imageUri={contact.imageUri} />
         <Text style={styles.contactName}>{contact.name}</Text>
       </View>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -153,7 +149,6 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
           </View>
         </View>
         <DeleteButton contactId={contact.id} onpress={deleteContact} />
-        {/* <Button title="borrar" onPress={deleteContact} /> */}
       </ScrollView>
     </SafeAreaView>
   );

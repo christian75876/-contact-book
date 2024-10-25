@@ -1,10 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// export interface Contact {
+//   id: number;
+//   name: string;
+//   email: string;
+//   phone: string;
+// }
+
 export interface Contact {
   id: number;
   name: string;
   email: string;
   phone: string;
+  imageUri: string | null;
 }
 
 const cache = new Map<string, Contact[] | null>();
