@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,6 +12,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import ContactImage from '../../components/ContactImage';
 import {useNewContact} from './hooks/useNewContact';
 import {useCamera} from '../../hooks/useCamera.hook';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export default function NewContact(): React.JSX.Element {
   const {
@@ -27,14 +29,31 @@ export default function NewContact(): React.JSX.Element {
 
   const {openCamera, openGallery} = useCamera(setImageUri);
 
+  const isDarkMode = false;
+  const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 16,
+      backgroundColor: backgroundColor,
+    },
+    contactHeader: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 250,
+      marginBottom: 20,
+    },
+    image: {
+      width: 170,
+      height: 170,
+      borderRadius: 85,
     },
     label: {
       fontSize: 16,
       marginBottom: 8,
+      color: isDarkMode ? Colors.white : Colors.black,
     },
     input: {
       height: 40,
@@ -44,29 +63,24 @@ export default function NewContact(): React.JSX.Element {
       paddingHorizontal: 10,
       marginBottom: 20,
       color: 'black',
+      backgroundColor: isDarkMode ? '#555' : '#fff',
     },
-    contactHeader: {
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 250,
-    },
-    image: {
-      width: 170,
-      height: 170,
-      borderRadius: 85,
+    contactDetails: {
+      backgroundColor: isDarkMode ? '#333' : '#fff',
+      padding: 10,
+      borderRadius: 10,
+      marginBottom: 20,
     },
     btnUpdate: {
-      width: 80,
-      backgroundColor: 'gray',
+      width: '100%',
+      backgroundColor: isDarkMode ? 'lightgray' : 'gray',
       borderRadius: 10,
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 10,
-      marginEnd: 10,
+      padding: 10,
     },
     containerBtn: {
-      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -85,46 +99,52 @@ export default function NewContact(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{alignItems: 'flex-end'}}>
-        <TouchableHighlight style={styles.btnUpdate}>
-          <Text onPress={handleCreateContact}>Create</Text>
-        </TouchableHighlight>
+      <View style={styles.contactHeader}>
+        <ContactImage imageUri={imageUri} />
       </View>
-      <ContactImage imageUri={imageUri} />
 
-      <View>
-        <Text style={styles.label}>Name:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your name"
-          value={name}
-          onChangeText={setName}
-        />
-        <Text style={styles.label}>Email:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-        <Text style={styles.label}>Phone:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your phone number"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-        />
-      </View>
-      <View style={styles.containerBtn}>
-        <TouchableHighlight style={styles.button} onPress={openCamera}>
-          <Text style={styles.buttonText}>Cámara</Text>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
+          <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your name"
+            value={name}
+            onChangeText={setName}
+          />
+          <Text style={styles.label}>Email:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+          <Text style={styles.label}>Phone:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your phone number"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+          />
+        </View>
+
+        <View style={styles.containerBtn}>
+          <TouchableHighlight style={styles.button} onPress={openCamera}>
+            <Text style={styles.buttonText}>Cámara</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={openGallery}>
+            <Text style={styles.buttonText}>Galería</Text>
+          </TouchableHighlight>
+        </View>
+
+        <TouchableHighlight
+          style={styles.btnUpdate}
+          onPress={handleCreateContact}>
+          <Text style={{color: isDarkMode ? '#000' : '#fff'}}>Crear</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={openGallery}>
-          <Text style={styles.buttonText}>Galería</Text>
-        </TouchableHighlight>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

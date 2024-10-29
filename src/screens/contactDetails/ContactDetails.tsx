@@ -54,6 +54,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
       fontSize: 30,
       fontWeight: 'bold',
       color: isDarkMode ? Colors.white : Colors.black,
+      marginBottom: 50,
     },
     contactDetails: {
       color: isDarkMode ? 'lightgray' : 'gray',
@@ -101,7 +102,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
               });
             }}
             style={{color: isDarkMode ? 'black' : '#fff', fontSize: 20}}>
-            Editar
+            Update
           </Text>
         </TouchableHighlight>
       </View>
