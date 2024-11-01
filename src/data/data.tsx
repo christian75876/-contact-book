@@ -7,6 +7,7 @@ export const contactData: Contact[] = [
     email: 'juan.perez@email.com',
     phone: '+34 612 345 678',
     imageUri: '',
+    location: [-75.56886131788171, 6.2499793616330805],
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const contactData: Contact[] = [
     email: 'ana.gomez@email.com',
     phone: '+34 623 456 789',
     imageUri: '',
+    location: [-75.56886131788171, 6.2499793616330805],
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const contactData: Contact[] = [
     email: 'carlos.ruiz@email.com',
     phone: '+34 634 567 890',
     imageUri: '',
+    location: [-75.56886131788171, 6.2499793616330805],
   },
   {
     id: 4,
@@ -28,6 +31,7 @@ export const contactData: Contact[] = [
     email: 'laura.martinez@email.com',
     phone: '+34 645 678 901',
     imageUri: '',
+    location: [-75.56886131788171, 6.2499793616330805],
   },
   {
     id: 5,
@@ -35,6 +39,7 @@ export const contactData: Contact[] = [
     email: 'pedro.sanchez@email.com',
     phone: '+34 656 789 012',
     imageUri: '',
+    location: [-75.56886131788171, 6.2499793616330805],
   },
 ];
 

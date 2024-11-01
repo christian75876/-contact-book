@@ -14,6 +14,7 @@ import {removeContactById} from '../../services/Crud';
 import ContactImage from '../../components/ContactImage';
 import {useContactDetail} from './hooks/useContactDetails.hook';
 import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
+import ViewMapBox from './components/ViewMapBox';
 
 type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
@@ -78,11 +79,11 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
       borderRadius: 10,
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 10,
-      marginEnd: 10,
+      margin: 10,
     },
     containerBtn: {
-      alignItems: 'flex-end',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
   });
 
@@ -90,6 +91,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     await removeContactById('contacts', parseInt(contactId));
     navigation.goBack();
   };
+  // console.log(contact.location[0]);
 
   return (
     <SafeAreaView>
@@ -105,6 +107,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
             Update
           </Text>
         </TouchableHighlight>
+        <DeleteButton contactId={contact.id} onpress={deleteContact} />
       </View>
       <View style={styles.contactHeader}>
         <ContactImage imageUri={contact.imageUri} />
@@ -124,8 +127,16 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
               <Text style={styles.information}>{contact.email}</Text>
             </View>
           </View>
+          <Text>Location</Text>
         </View>
-        <DeleteButton contactId={contact.id} onpress={deleteContact} />
+        {!contact.location || !contact.location[0] || !contact.location[1] ? (
+          <Text>No location available</Text>
+        ) : (
+          <ViewMapBox
+            latitude={contact.location[0]}
+            longitude={contact.location[1]}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

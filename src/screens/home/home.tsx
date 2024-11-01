@@ -13,7 +13,6 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useHome} from './hooks/useHome.hook';
-import Mapbox from '../../components/Mapbox';
 
 export function Home(): React.JSX.Element {
   const {navigation, filteredContacts, searchText, setSearchText} = useHome();
@@ -106,7 +105,6 @@ export function Home(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <Mapbox />
 
       <View style={styles.headerTitle}>
         <View style={styles.header}>

@@ -1,4 +1,12 @@
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  useColorScheme,
+  View,
+} from 'react-native';
 import React from 'react';
 import {RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -6,6 +14,8 @@ import ContactImage from '../../components/ContactImage';
 import useUpdate from './hooks/useUpdate.hook';
 import {useCamera} from '../../hooks/useCamera.hook';
 import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
+import Mapbox from '../../components/Mapbox';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
 
@@ -21,28 +31,39 @@ export default function UpdateContact({route}: IupdateContactRoute) {
     setEmail,
     setPhone,
     setImageUri,
+    updateLocation,
+    location,
   } = useUpdate({
     route,
   });
 
   const {openCamera, openGallery} = useCamera(setImageUri);
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: '#fff',
+      backgroundColor: backgroundColor,
     },
     title: {
       fontSize: 20,
       marginBottom: 20,
     },
     input: {
-      height: 40,
-      borderColor: 'gray',
+      height: 45,
+      borderColor: '#ccc',
       borderWidth: 1,
-      marginBottom: 15,
-      paddingHorizontal: 10,
+      borderRadius: 8,
+      paddingHorizontal: 15,
+      marginBottom: 20,
+      backgroundColor: isDarkMode ? '#555' : '#fff',
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginVertical: 10,
     },
   });
 
@@ -55,7 +76,7 @@ export default function UpdateContact({route}: IupdateContactRoute) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <ContactImage imageUri={imageUri} />
       <TextInput
         style={styles.input}
@@ -80,9 +101,13 @@ export default function UpdateContact({route}: IupdateContactRoute) {
         keyboardType="phone-pad"
       />
 
+      <Mapbox onLocationSelect={updateLocation} location={location} />
+
+      <View style={styles.buttonContainer}></View>
+
       <Button title="Save Changes" onPress={handleSave} />
       <Button title="Camara" onPress={openCamera} />
       <Button title="Galeria" onPress={openGallery} />
-    </View>
+    </ScrollView>
   );
 }

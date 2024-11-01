@@ -23,6 +23,11 @@ export default function useUpdate({route}: IupdateContactRoute) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [location, setLocation] = useState<number[] | null>(null);
+
+  const updateLocation = (newLocation: number[]) => {
+    setLocation(newLocation);
+  };
 
   useEffect(() => {
     const fetchContact = async () => {
@@ -34,6 +39,7 @@ export default function useUpdate({route}: IupdateContactRoute) {
         setEmail(fetchedContact.email);
         setPhone(fetchedContact.phone);
         setImageUri(fetchedContact.imageUri);
+        setLocation(fetchedContact.location);
       }
       console.log(fetchContact);
     };
@@ -49,6 +55,7 @@ export default function useUpdate({route}: IupdateContactRoute) {
       email,
       phone,
       imageUri,
+      location,
     };
 
     await updateCachedData(contactId, 'contacts', updatedContact);
@@ -64,5 +71,7 @@ export default function useUpdate({route}: IupdateContactRoute) {
     setEmail,
     setPhone,
     setImageUri,
+    updateLocation,
+    location,
   };
 }
