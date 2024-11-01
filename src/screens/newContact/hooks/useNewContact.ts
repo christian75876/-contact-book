@@ -10,9 +10,14 @@ export const useNewContact = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [location, setLocation] = useState<number[] | null>(null);
 
   type navigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
   const navigation = useNavigation<navigationProp>();
+
+  const updateLocation = (newLocation: number[]) => {
+    setLocation(newLocation);
+  };
 
   const handleCreateContact = async () => {
     if (!name) {
@@ -24,6 +29,7 @@ export const useNewContact = () => {
       email,
       phone,
       imageUri,
+      location,
     };
 
     await setContactCacheData('contacts', newContact);
@@ -36,6 +42,7 @@ export const useNewContact = () => {
     navigation.navigate('Home');
   };
   return {
+    location,
     imageUri,
     name,
     setName,
@@ -45,5 +52,6 @@ export const useNewContact = () => {
     setPhone,
     handleCreateContact,
     setImageUri,
+    updateLocation,
   };
 };

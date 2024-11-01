@@ -13,6 +13,7 @@ export interface Contact {
   email: string;
   phone: string;
   imageUri: string | null;
+  location: number[] | null;
 }
 
 const cache = new Map<string, Contact[] | null>();

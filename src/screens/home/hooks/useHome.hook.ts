@@ -15,7 +15,6 @@ export function useHome() {
   const retrieveData = async () => {
     try {
       const data = await getCachedData('contacts');
-      console.log(data);
       setContacts(data!);
     } catch (error) {
       console.log('error al obtener datos de cache' + error);

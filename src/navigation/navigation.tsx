@@ -17,7 +17,11 @@ const Navigation = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen name="ContacDetails" component={ContactDetails} />
-      <Stack.Screen name="NewContact" component={NewContact} />
+      <Stack.Screen
+        name="NewContact"
+        component={NewContact}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="UpdateContact" component={UpdateContact} />
     </Stack.Navigator>
   );
