@@ -1,13 +1,14 @@
 import {
   Text,
   TextInput,
-  Button,
   StyleSheet,
   ScrollView,
   useColorScheme,
   View,
+  TouchableOpacity,
+  Modal,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {RouteProp} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ContactImage from '../../components/ContactImage';
@@ -16,6 +17,7 @@ import {useCamera} from '../../hooks/useCamera.hook';
 import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
 import Mapbox from '../../components/Mapbox';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
 
@@ -40,6 +42,7 @@ export default function UpdateContact({route}: IupdateContactRoute) {
   const {openCamera, openGallery} = useCamera(setImageUri);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
+  const [isMapVisible, setIsMapVisible] = useState(false);
 
   const styles = StyleSheet.create({
     container: {
@@ -64,6 +67,60 @@ export default function UpdateContact({route}: IupdateContactRoute) {
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginVertical: 10,
+    },
+    button: {
+      flex: 1,
+      backgroundColor: '#007bff',
+      borderRadius: 8,
+      paddingVertical: 12,
+      marginHorizontal: 5,
+    },
+    buttonText: {
+      color: 'white',
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    btnClose: {
+      backgroundColor: '#FF4B4B',
+      borderRadius: 8,
+      padding: 12,
+      alignItems: 'center',
+      width: '50%',
+      marginBottom: 10,
+      marginTop: 20,
+    },
+    btnCloseText: {
+      color: '#fff',
+      fontWeight: 'bold',
+      fontSize: 16,
+    },
+    label: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 8,
+      color: isDarkMode ? Colors.white : Colors.black,
+    },
+    modalMap: {
+      height: 400,
+      width: '90%',
+      backgroundColor: 'white',
+      borderRadius: 10,
+      overflow: 'hidden',
+      alignItems: 'center',
+    },
+    btnSave: {
+      backgroundColor: isDarkMode ? 'lightgray' : 'gray',
+      borderRadius: 8,
+      paddingVertical: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
     },
   });
 
@@ -101,13 +158,40 @@ export default function UpdateContact({route}: IupdateContactRoute) {
         keyboardType="phone-pad"
       />
 
-      <Mapbox onLocationSelect={updateLocation} location={location} />
+      <TouchableOpacity onPress={() => setIsMapVisible(true)}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.label}>Select location</Text>
+          <Icon name="map-outline" size={24} style={{paddingLeft: 10}} />
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.buttonContainer}></View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={openCamera}>
+          <Text style={styles.buttonText}>Camera</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={openGallery}>
+          <Text style={styles.buttonText}>Gallery</Text>
+        </TouchableOpacity>
+      </View>
 
-      <Button title="Save Changes" onPress={handleSave} />
-      <Button title="Camara" onPress={openCamera} />
-      <Button title="Galeria" onPress={openGallery} />
+      <TouchableOpacity style={styles.btnSave} onPress={handleSave}>
+        <Text style={{color: isDarkMode ? '#000' : '#fff', fontWeight: 'bold'}}>
+          Save
+        </Text>
+      </TouchableOpacity>
+
+      <Modal visible={isMapVisible} transparent={true}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalMap}>
+            <Mapbox onLocationSelect={updateLocation} location={location} />
+            <TouchableOpacity
+              style={styles.btnClose}
+              onPress={() => setIsMapVisible(false)}>
+              <Text style={styles.btnCloseText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
