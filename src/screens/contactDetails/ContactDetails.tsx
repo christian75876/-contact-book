@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -15,6 +15,7 @@ import ContactImage from '../../components/ContactImage';
 import {useContactDetail} from './hooks/useContactDetails.hook';
 import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
 import ViewMapBox from './components/ViewMapBox';
+import apiWeather from '../../services/Weather';
 
 type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
@@ -24,8 +25,23 @@ export interface IcontactDetailsRoute {
 
 export default function ContactDetails({route}: IcontactDetailsRoute) {
   const {contactId} = route.params as {contactId: string};
-
+  const [weatherData, setWeatherData] = useState(null);
   const {navigation, contact, isDarkMode} = useContactDetail({route});
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (!contact?.location) {
+        return;
+      }
+      const response = await apiWeather(
+        contact.location[1],
+        contact.location[0],
+      );
+      console.log(response);
+      setWeatherData(response);
+    };
+    fetchWeather();
+  }, [contact]);
 
   if (!contact) {
     return (
@@ -91,10 +107,14 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     await removeContactById('contacts', parseInt(contactId));
     navigation.goBack();
   };
-  // console.log(contact.location[0]);
+
+  if (!weatherData) {
+    return <Text>No weather data available</Text>;
+  }
 
   return (
     <SafeAreaView>
+      {weatherData && <Text>Jose {weatherData.weather[0].description}</Text>}
       <View style={styles.containerBtn}>
         <TouchableHighlight style={styles.btnUpdate}>
           <Text
@@ -135,6 +155,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
           <ViewMapBox
             latitude={contact.location[0]}
             longitude={contact.location[1]}
+            icon={weatherData.weather[0].icon}
           />
         )}
       </ScrollView>
