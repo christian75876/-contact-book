@@ -263,11 +263,33 @@ const Mapbox = ({onLocationSelect, location}: IMapBox) => {
     },
   });
 
+  if (!location) {
+    return (
+      <View style={styles.container}>
+        <MapboxGL.MapView style={styles.map} onPress={handlePress}>
+          <MapboxGL.Camera
+            centerCoordinate={[-75.56886131788171, 6.2499793616330805]}
+            zoomLevel={11.15}
+            animationMode="flyTo"
+            animationDuration={1000}
+          />
+
+          {location && (
+            <MapboxGL.PointAnnotation
+              coordinate={location}
+              id={`${location[0]}-${location[1]}`}>
+              <Icon name="location" size={24} style={{color: 'blue'}} />
+            </MapboxGL.PointAnnotation>
+          )}
+        </MapboxGL.MapView>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <MapboxGL.MapView style={styles.map} onPress={handlePress}>
         <MapboxGL.Camera
-          centerCoordinate={[-75.56886131788171, 6.2499793616330805]}
+          centerCoordinate={[location[0], location[1]]}
           zoomLevel={11.15}
           animationMode="flyTo"
           animationDuration={1000}
