@@ -37,7 +37,6 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
         contact.location[1],
         contact.location[0],
       );
-      console.log(response);
       setWeatherData(response);
     };
     fetchWeather();
@@ -108,13 +107,8 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     navigation.goBack();
   };
 
-  if (!weatherData) {
-    return <Text>No weather data available</Text>;
-  }
-
   return (
     <SafeAreaView>
-      {weatherData && <Text>Jose {weatherData.weather[0].description}</Text>}
       <View style={styles.containerBtn}>
         <TouchableHighlight style={styles.btnUpdate}>
           <Text
@@ -142,21 +136,29 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
             </View>
           </View>
           <View style={styles.contactDetails}>
-            <Text>Phone:</Text>
+            <Text>Email:</Text>
             <View style={{alignItems: 'center'}}>
               <Text style={styles.information}>{contact.email}</Text>
             </View>
           </View>
           <Text>Location</Text>
         </View>
+
         {!contact.location || !contact.location[0] || !contact.location[1] ? (
           <Text>No location available</Text>
         ) : (
           <ViewMapBox
             latitude={contact.location[0]}
             longitude={contact.location[1]}
-            icon={weatherData.weather[0].icon}
+            icon={weatherData?.weather?.[0]?.icon}
           />
+        )}
+        {weatherData && weatherData.weather && (
+          <View style={styles.body}>
+            <Text style={styles.information}>
+              Weather: {weatherData.weather[0].description}
+            </Text>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>
