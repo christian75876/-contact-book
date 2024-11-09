@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useHome } from './hooks/useHome.hook';
 
 export function Home(): React.JSX.Element {
-  const { navigation, filteredContacts, searchText, setSearchText } = useHome();
+  const { navigation, searchText, setSearchText, groupedContacts } = useHome();
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -31,15 +31,15 @@ export function Home(): React.JSX.Element {
       textAlign: 'center',
     },
     body: {
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
       height: '100%',
       padding: 2,
-      color: !isDarkMode ? Colors.black : Colors.white,
+      color: !isDarkMode ? Colors.darker : Colors.lighter,
     },
     headerTitle: {
       paddingBottom: 10,
       paddingHorizontal: 10,
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     },
     input: {
       height: 40,
@@ -63,7 +63,6 @@ export function Home(): React.JSX.Element {
       gap: 15,
     },
     contact: {
-      backgroundColor: isDarkMode ? '#333' : '#fff',
       padding: 8,
       borderBottomWidth: 1,
       borderColor: isDarkMode ? '#555' : '#ddd',
@@ -127,21 +126,29 @@ export function Home(): React.JSX.Element {
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.body}>
           <View style={styles.contactList}>
-            {filteredContacts.map((data, index) => (
-              <View
-                key={index}
-                style={styles.contact}
-                onTouchStart={() => {
-                  const contactId = data.id;
-                  return navigation.navigate('ContacDetails', {
-                    contactId,
-                  });
-                }}>
-                <View style={styles.contactInfo}>
-                  <Text style={styles.contactName}>{data.name}</Text>
+            {Object.keys(groupedContacts)
+              .sort()
+              .map(letter => (
+                <View key={letter}>
+                  <Text>{letter}</Text>
+
+                  {groupedContacts[letter].map(contact => (
+                    <View
+                      key={contact.id}
+                      style={styles.contact}
+                      onTouchStart={() => {
+                        const contactId = contact.id;
+                        return navigation.navigate('ContacDetails', {
+                          contactId,
+                        });
+                      }}>
+                      <View style={styles.contactInfo}>
+                        <Text style={styles.contactName}>{contact.name}</Text>
+                      </View>
+                    </View>
+                  ))}
                 </View>
-              </View>
-            ))}
+              ))}
           </View>
         </View>
       </ScrollView>

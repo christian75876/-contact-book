@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,12 +9,12 @@ import {
   Modal,
   useColorScheme,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ContactImage from '../../components/ContactImage';
-import {useNewContact} from './hooks/useNewContact';
-import {useCamera} from '../../hooks/useCamera.hook';
+import { useNewContact } from './hooks/useNewContact';
+import { useCamera } from '../../hooks/useCamera.hook';
 import Mapbox from '../../components/Mapbox';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function NewContact(): React.JSX.Element {
@@ -32,7 +32,7 @@ export default function NewContact(): React.JSX.Element {
     location,
   } = useNewContact();
 
-  const {openCamera, openGallery} = useCamera(setImageUri);
+  const { openCamera, openGallery } = useCamera(setImageUri);
 
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
@@ -72,13 +72,13 @@ export default function NewContact(): React.JSX.Element {
     },
     button: {
       flex: 1,
-      backgroundColor: '#007bff',
+      backgroundColor: isDarkMode ? 'lightgray' : 'gray',
       borderRadius: 8,
       paddingVertical: 12,
       marginHorizontal: 5,
     },
     buttonText: {
-      color: 'white',
+      color: !isDarkMode ? 'white' : 'black',
       textAlign: 'center',
       fontWeight: 'bold',
     },
@@ -124,7 +124,7 @@ export default function NewContact(): React.JSX.Element {
     <SafeAreaView style={styles.container}>
       <View style={styles.contactHeader}>
         <ContactImage imageUri={imageUri} />
-        <Text style={{fontSize: 22, fontWeight: 'bold'}}>New Contact</Text>
+        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>New Contact</Text>
       </View>
 
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -155,9 +155,9 @@ export default function NewContact(): React.JSX.Element {
         </View>
 
         <TouchableOpacity onPress={() => setIsMapVisible(true)}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <Text style={styles.label}>Select location</Text>
-            <Icon name="map-outline" size={24} style={{paddingLeft: 10}} />
+            <Icon name="map-outline" size={24} style={{ paddingLeft: 10 }} />
           </View>
         </TouchableOpacity>
 
@@ -174,7 +174,7 @@ export default function NewContact(): React.JSX.Element {
           style={styles.btnCreate}
           onPress={handleCreateContact}>
           <Text
-            style={{color: isDarkMode ? '#000' : '#fff', fontWeight: 'bold'}}>
+            style={{ color: isDarkMode ? '#000' : '#fff', fontWeight: 'bold' }}>
             Create
           </Text>
         </TouchableOpacity>

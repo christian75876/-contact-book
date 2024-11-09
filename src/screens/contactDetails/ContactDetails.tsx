@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable*/
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,14 +7,14 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import DeleteButton from './components/DeleteButton';
-import {RouteProp} from '@react-navigation/native';
-import {removeContactById} from '../../services/Crud';
+import { RouteProp } from '@react-navigation/native';
+import { removeContactById } from '../../services/Crud';
 import ContactImage from '../../components/ContactImage';
-import {useContactDetail} from './hooks/useContactDetails.hook';
-import {RootStackParamList} from '../../interfaces/interfaceRootStackParamList';
+import { useContactDetail } from './hooks/useContactDetails.hook';
+import { RootStackParamList } from '../../interfaces/interfaceRootStackParamList';
 import ViewMapBox from './components/ViewMapBox';
 import apiWeather from '../../services/Weather';
 
@@ -23,10 +24,10 @@ export interface IcontactDetailsRoute {
   route: ContactDetailsRouteProps;
 }
 
-export default function ContactDetails({route}: IcontactDetailsRoute) {
-  const {contactId} = route.params as {contactId: string};
+export default function ContactDetails({ route }: IcontactDetailsRoute) {
+  const { contactId } = route.params as { contactId: string };
   const [weatherData, setWeatherData] = useState(null);
-  const {navigation, contact, isDarkMode} = useContactDetail({route});
+  const { navigation, contact, isDarkMode } = useContactDetail({ route });
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -50,7 +51,14 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     );
   }
 
+  const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
+
   const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 10,
+      backgroundColor: backgroundColor,
+    },
     contactHeader: {
       flexDirection: 'column',
       justifyContent: 'center',
@@ -58,10 +66,10 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
       height: 250,
     },
     contact: {
-      backgroundColor: isDarkMode ? '#333' : '#fff',
+      backgroundColor: backgroundColor,
       padding: 8,
       borderBottomWidth: 1,
-      borderColor: isDarkMode ? '#555' : '#ddd',
+      borderColor: backgroundColor,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -69,11 +77,11 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     contactName: {
       fontSize: 30,
       fontWeight: 'bold',
-      color: isDarkMode ? Colors.white : Colors.black,
+      color: backgroundColor,
       marginBottom: 50,
     },
     contactDetails: {
-      color: isDarkMode ? 'lightgray' : 'gray',
+      color: backgroundColor,
       borderWidth: 1,
       padding: 4,
       borderRadius: 15,
@@ -108,7 +116,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={styles.containerBtn}>
         <TouchableHighlight style={styles.btnUpdate}>
           <Text
@@ -117,7 +125,7 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
                 contactId: parseInt(contactId),
               });
             }}
-            style={{color: isDarkMode ? 'black' : '#fff', fontSize: 20}}>
+            style={{ color: isDarkMode ? 'black' : '#fff', fontSize: 20 }}>
             Update
           </Text>
         </TouchableHighlight>
@@ -131,13 +139,13 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
         <View style={styles.body}>
           <View style={styles.contactDetails}>
             <Text>Phone:</Text>
-            <View style={{alignItems: 'center'}}>
+            <View style={{ alignItems: 'center' }}>
               <Text style={styles.information}>{contact.phone}</Text>
             </View>
           </View>
           <View style={styles.contactDetails}>
             <Text>Email:</Text>
-            <View style={{alignItems: 'center'}}>
+            <View style={{ alignItems: 'center' }}>
               <Text style={styles.information}>{contact.email}</Text>
             </View>
           </View>

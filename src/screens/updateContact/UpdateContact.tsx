@@ -8,15 +8,15 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import React, {useState} from 'react';
-import {RouteProp} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { RouteProp } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ContactImage from '../../components/ContactImage';
 import useUpdate from './hooks/useUpdate.hook';
-import {useCamera} from '../../hooks/useCamera.hook';
-import {RootStackParamList} from '../../interfaces/interfaceRootStackParamList';
+import { useCamera } from '../../hooks/useCamera.hook';
+import { RootStackParamList } from '../../interfaces/interfaceRootStackParamList';
 import Mapbox from '../../components/Mapbox';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
@@ -24,7 +24,7 @@ type UpdateContactRouteProps = RouteProp<RootStackParamList, 'UpdateContact'>;
 export interface IupdateContactRoute {
   route: UpdateContactRouteProps;
 }
-export default function UpdateContact({route}: IupdateContactRoute) {
+export default function UpdateContact({ route }: IupdateContactRoute) {
   const {
     handleSave,
     contact,
@@ -39,7 +39,7 @@ export default function UpdateContact({route}: IupdateContactRoute) {
     route,
   });
 
-  const {openCamera, openGallery} = useCamera(setImageUri);
+  const { openCamera, openGallery } = useCamera(setImageUri);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
   const [isMapVisible, setIsMapVisible] = useState(false);
@@ -70,13 +70,13 @@ export default function UpdateContact({route}: IupdateContactRoute) {
     },
     button: {
       flex: 1,
-      backgroundColor: '#007bff',
+      backgroundColor: isDarkMode ? 'lightgray' : 'gray',
       borderRadius: 8,
       paddingVertical: 12,
       marginHorizontal: 5,
     },
     buttonText: {
-      color: 'white',
+      color: isDarkMode ? '#000' : '#fff',
       textAlign: 'center',
       fontWeight: 'bold',
     },
@@ -109,7 +109,7 @@ export default function UpdateContact({route}: IupdateContactRoute) {
     modalMap: {
       height: 400,
       width: '90%',
-      backgroundColor: 'white',
+      backgroundColor: backgroundColor,
       borderRadius: 10,
       overflow: 'hidden',
       alignItems: 'center',
@@ -159,9 +159,9 @@ export default function UpdateContact({route}: IupdateContactRoute) {
       />
 
       <TouchableOpacity onPress={() => setIsMapVisible(true)}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.label}>Select location</Text>
-          <Icon name="map-outline" size={24} style={{paddingLeft: 10}} />
+          <Icon name="map-outline" size={24} style={{ paddingLeft: 10 }} />
         </View>
       </TouchableOpacity>
 
@@ -175,9 +175,7 @@ export default function UpdateContact({route}: IupdateContactRoute) {
       </View>
 
       <TouchableOpacity style={styles.btnSave} onPress={handleSave}>
-        <Text style={{color: isDarkMode ? '#000' : '#fff', fontWeight: 'bold'}}>
-          Save
-        </Text>
+        <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
 
       <Modal visible={isMapVisible} transparent={true}>

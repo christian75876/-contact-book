@@ -45,10 +45,23 @@ export function useHome() {
 
   const navigation = useNavigation<navigationProp>();
 
+  const groupContactsByLetter = (contactsGeneral: Contact[]) => {
+    return contactsGeneral.reduce((acc, contact) => {
+      const firstLetter = contact.name[0].toUpperCase();
+      if (!acc[firstLetter]) {
+        acc[firstLetter] = [];
+      }
+      acc[firstLetter].push(contact);
+      return acc;
+    }, {} as { [key: string]: Contact[] });
+  };
+
+  const groupedContacts = groupContactsByLetter(filteredContacts);
+
   return {
     navigation,
-    filteredContacts,
     searchText,
     setSearchText,
+    groupedContacts,
   };
 }
