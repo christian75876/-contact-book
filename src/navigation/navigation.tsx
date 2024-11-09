@@ -4,7 +4,7 @@ import ContactDetails from '../screens/contactDetails/ContactDetails';
 import NewContact from '../screens/newContact/NewContact';
 import UpdateContact from '../screens/updateContact/UpdateContact';
 import Home from '../screens/home/home';
-import {RootStackParamList} from './interfaceRootStackParamList';
+import {RootStackParamList} from '../interfaces/interfaceRootStackParamList';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

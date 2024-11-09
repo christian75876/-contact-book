@@ -10,12 +10,12 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useHome} from './hooks/useHome.hook';
+import { useHome } from './hooks/useHome.hook';
 
 export function Home(): React.JSX.Element {
-  const {navigation, filteredContacts, searchText, setSearchText} = useHome();
+  const { navigation, filteredContacts, searchText, setSearchText } = useHome();
 
   const isDarkMode = useColorScheme() === 'dark';
 

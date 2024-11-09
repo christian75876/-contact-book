@@ -1,13 +1,14 @@
-import {useEffect, useState} from 'react';
-import {getCachedData} from '../../../services/Crud';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
-import {checkPermission} from '../../../utilities/check-permision';
-import {PermissionEnum} from '../../../interfaces/permissions.interface';
+import { useEffect, useState } from 'react';
+import { getCachedData } from '../../../services/Crud';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../interfaces/interfaceRootStackParamList';
+import { checkPermission } from '../../../utilities/check-permision';
+import { PermissionEnum } from '../../../interfaces/permissions.interface';
+import type Contact from '../../../interfaces/contact.interface';
 
 export function useHome() {
-  const [contacts, setContacts] = useState<any[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchText, setSearchText] = useState('');
 
   const filteredContacts = contacts.filter(contact =>

@@ -1,22 +1,19 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
-import {useNavigation} from '@react-navigation/native';
-import {useEffect, useState} from 'react';
-import {
-  Contact,
-  getCacheDataById,
-  updateCachedData,
-} from '../../../services/Crud';
-import {IupdateContactRoute} from '../UpdateContact';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../interfaces/interfaceRootStackParamList';
+import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { getCacheDataById, updateCachedData } from '../../../services/Crud';
+import { IupdateContactRoute } from '../UpdateContact';
+import type Contact from '../../../interfaces/contact.interface';
 
-export default function useUpdate({route}: IupdateContactRoute) {
+export default function useUpdate({ route }: IupdateContactRoute) {
   type navigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'ContactDetails'
   >;
   const navigation = useNavigation<navigationProp>();
 
-  const {contactId} = route.params as {contactId: number};
+  const { contactId } = route.params as { contactId: number };
   const [contact, setContact] = useState<Contact | null>(null);
 
   const [name, setName] = useState('');
@@ -48,7 +45,7 @@ export default function useUpdate({route}: IupdateContactRoute) {
   }, [contactId]);
 
   const handleSave = async () => {
-    console.log('Contact updated:', {contactId, name, email, phone});
+    console.log('Contact updated:', { contactId, name, email, phone });
     const updatedContact: Contact = {
       id: contactId,
       name,
@@ -60,7 +57,7 @@ export default function useUpdate({route}: IupdateContactRoute) {
 
     await updateCachedData(contactId, 'contacts', updatedContact);
 
-    navigation.navigate('ContacDetails', {contactId});
+    navigation.navigate('ContacDetails', { contactId });
   };
 
   return {

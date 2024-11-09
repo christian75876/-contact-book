@@ -1,9 +1,10 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useState} from 'react';
-import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
+import {RootStackParamList} from '../../../interfaces/interfaceRootStackParamList';
 import {useNavigation} from '@react-navigation/native';
-import {Contact, setContactCacheData} from '../../../services/Crud';
+import {setContactCacheData} from '../../../services/Crud';
 import {Alert} from 'react-native';
+import Contact from '../../../interfaces/contact.interface';
 
 export const useNewContact = () => {
   const [name, setName] = useState('');

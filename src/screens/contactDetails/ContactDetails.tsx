@@ -13,7 +13,7 @@ import {RouteProp} from '@react-navigation/native';
 import {removeContactById} from '../../services/Crud';
 import ContactImage from '../../components/ContactImage';
 import {useContactDetail} from './hooks/useContactDetails.hook';
-import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
+import {RootStackParamList} from '../../interfaces/interfaceRootStackParamList';
 import ViewMapBox from './components/ViewMapBox';
 import apiWeather from '../../services/Weather';
 
