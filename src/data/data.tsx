@@ -1,4 +1,5 @@
-import {setCachedData, type Contact} from '../services/Crud';
+import type Contact from '../interfaces/contact.interface';
+import { setCachedData } from '../services/Crud';
 
 export const contactData: Contact[] = [
   {
@@ -46,11 +47,8 @@ export const contactData: Contact[] = [
 export const initializeContacts = async () => {
   try {
     await setCachedData('contacts', contactData);
-    console.log('Contactos almacenados exitosamente.');
+    console.log('Contacts stored successfully.');
   } catch (error) {
-    console.error('Error al almacenar contactos:', error);
+    console.error('Error storing contacts:', error);
   }
 };
-
-// Uncomment this line to initialize the contacts data when the app starts.
-// initializeContacts();

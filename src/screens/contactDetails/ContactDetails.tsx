@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -13,8 +13,9 @@ import {RouteProp} from '@react-navigation/native';
 import {removeContactById} from '../../services/Crud';
 import ContactImage from '../../components/ContactImage';
 import {useContactDetail} from './hooks/useContactDetails.hook';
-import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
+import {RootStackParamList} from '../../interfaces/interfaceRootStackParamList';
 import ViewMapBox from './components/ViewMapBox';
+import apiWeather from '../../services/Weather';
 
 type ContactDetailsRouteProps = RouteProp<RootStackParamList, 'ContacDetails'>;
 
@@ -24,8 +25,22 @@ export interface IcontactDetailsRoute {
 
 export default function ContactDetails({route}: IcontactDetailsRoute) {
   const {contactId} = route.params as {contactId: string};
-
+  const [weatherData, setWeatherData] = useState(null);
   const {navigation, contact, isDarkMode} = useContactDetail({route});
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      if (!contact?.location) {
+        return;
+      }
+      const response = await apiWeather(
+        contact.location[1],
+        contact.location[0],
+      );
+      setWeatherData(response);
+    };
+    fetchWeather();
+  }, [contact]);
 
   if (!contact) {
     return (
@@ -91,7 +106,6 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
     await removeContactById('contacts', parseInt(contactId));
     navigation.goBack();
   };
-  // console.log(contact.location[0]);
 
   return (
     <SafeAreaView>
@@ -122,20 +136,29 @@ export default function ContactDetails({route}: IcontactDetailsRoute) {
             </View>
           </View>
           <View style={styles.contactDetails}>
-            <Text>Phone:</Text>
+            <Text>Email:</Text>
             <View style={{alignItems: 'center'}}>
               <Text style={styles.information}>{contact.email}</Text>
             </View>
           </View>
           <Text>Location</Text>
         </View>
+
         {!contact.location || !contact.location[0] || !contact.location[1] ? (
           <Text>No location available</Text>
         ) : (
           <ViewMapBox
             latitude={contact.location[0]}
             longitude={contact.location[1]}
+            icon={weatherData?.weather?.[0]?.icon}
           />
+        )}
+        {weatherData && weatherData.weather && (
+          <View style={styles.body}>
+            <Text style={styles.information}>
+              Weather: {weatherData.weather[0].description}
+            </Text>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>

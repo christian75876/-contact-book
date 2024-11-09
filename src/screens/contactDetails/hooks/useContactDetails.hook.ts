@@ -1,19 +1,20 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../navigation/interfaceRootStackParamList';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {useCallback, useState} from 'react';
-import {IcontactDetailsRoute} from '../ContactDetails';
-import {Contact, getCacheDataById} from '../../../services/Crud';
-import {useColorScheme} from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../interfaces/interfaceRootStackParamList';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { IcontactDetailsRoute } from '../ContactDetails';
+import { getCacheDataById } from '../../../services/Crud';
+import { useColorScheme } from 'react-native';
+import type Contact from '../../../interfaces/contact.interface';
 
-export const useContactDetail = ({route}: IcontactDetailsRoute) => {
+export const useContactDetail = ({ route }: IcontactDetailsRoute) => {
   type navigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'UpdateContact'
   >;
   const navigation = useNavigation<navigationProp>();
 
-  const {contactId} = route.params as {contactId: string};
+  const { contactId } = route.params as { contactId: string };
   const [contact, setContact] = useState<Contact | null>(null);
 
   useFocusEffect(

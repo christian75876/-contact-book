@@ -14,7 +14,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import ContactImage from '../../components/ContactImage';
 import useUpdate from './hooks/useUpdate.hook';
 import {useCamera} from '../../hooks/useCamera.hook';
-import {RootStackParamList} from '../../navigation/interfaceRootStackParamList';
+import {RootStackParamList} from '../../interfaces/interfaceRootStackParamList';
 import Mapbox from '../../components/Mapbox';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';

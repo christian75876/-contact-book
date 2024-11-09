@@ -1,20 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// export interface Contact {
-//   id: number;
-//   name: string;
-//   email: string;
-//   phone: string;
-// }
-
-export interface Contact {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  imageUri: string | null;
-  location: number[] | null;
-}
+import Contact from '../interfaces/contact.interface';
 
 const cache = new Map<string, Contact[] | null>();
 
@@ -73,7 +58,6 @@ export const updateCachedData = async (
       console.log('Could not find contact');
       return null;
     }
-
     const updatedContacts = contacts.map(c =>
       c.id === id ? updatedContact : c,
     );
