@@ -1,4 +1,4 @@
-import {PERMISSIONS} from 'react-native-permissions';
+import { PERMISSIONS } from 'react-native-permissions';
 
 export enum PermissionEnum {
   CAMERA = 'CAMERA',
@@ -10,13 +10,14 @@ export enum PermissionEnum {
   GET_ACCOUNTS = 'GET_ACCOUNTS',
   READ_CONTACTS = 'READ_CONTACTS',
   READ_PHONE_NUMBERS = 'READ_PHONE_NUMBERS',
+  WRITE_EXTERNAL_STORAGE = 'WRITE_EXTERNAL_STORAGE',
 }
 
 // Define the type for permissions using the typeof and keyof operators
 type AndroidPermission =
   (typeof PERMISSIONS.ANDROID)[keyof typeof PERMISSIONS.ANDROID];
 
-export const permissionMap: {[key in PermissionEnum]: AndroidPermission} = {
+export const permissionMap: { [key in PermissionEnum]: AndroidPermission } = {
   [PermissionEnum.CAMERA]: PERMISSIONS.ANDROID.CAMERA,
   [PermissionEnum.READ_MEDIA_IMAGES]: PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
   [PermissionEnum.READ_MEDIA_VISUAL_USER_SELECTED]:
@@ -28,4 +29,6 @@ export const permissionMap: {[key in PermissionEnum]: AndroidPermission} = {
   [PermissionEnum.GET_ACCOUNTS]: PERMISSIONS.ANDROID.GET_ACCOUNTS,
   [PermissionEnum.READ_CONTACTS]: PERMISSIONS.ANDROID.READ_CONTACTS,
   [PermissionEnum.READ_PHONE_NUMBERS]: PERMISSIONS.ANDROID.READ_PHONE_NUMBERS,
+  [PermissionEnum.WRITE_EXTERNAL_STORAGE]:
+    PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
 };

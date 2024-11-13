@@ -5,15 +5,15 @@
  * @format
  */
 import React from 'react';
-import {useColorScheme} from 'react-native';
+import { useColorScheme } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainStack from './src/navigation/main-stack';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {getCachedData} from './src/services/Crud';
-import {initializeContacts} from './src/data/data';
-import {checkPermission} from './src/utilities/check-permision';
-import {PermissionEnum} from './src/interfaces/permissions.interface';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { getCachedData } from './src/services/Crud';
+import { initializeContacts } from './src/data/data';
+import { checkPermission } from './src/utilities/check-permision';
+import { PermissionEnum } from './src/interfaces/permissions.interface';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -26,13 +26,13 @@ function App(): React.JSX.Element {
     try {
       const data = await getCachedData('contacts');
       if (!data) {
+        initializeContacts();
         const permissionResponse = await checkPermission(
-          PermissionEnum.ACCESS_MEDIA_LOCATION,
+          PermissionEnum.CONTACTS,
         );
         if (!permissionResponse) {
           console.log('cannot check permissions');
         } else {
-          initializeContacts();
         }
       } else {
         console.log('Todo va funcionando bien');

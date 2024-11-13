@@ -59,7 +59,9 @@ const ViewMapBox: React.FC<ViewMapBoxProps> = ({
         <MapboxGL.PointAnnotation
           coordinate={[latitude, longitude + 0.009]}
           id={'marker-2'}>
-          <Icon {...aux} />
+          <View style={{ backgroundColor: 'red' }}>
+            <Icon {...aux} />
+          </View>
         </MapboxGL.PointAnnotation>
 
         <MapboxGL.PointAnnotation
